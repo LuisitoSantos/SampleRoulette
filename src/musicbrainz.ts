@@ -16,6 +16,9 @@ export async function discoverFromMusicBrainz(filters:Filters):Promise<Song[]>{
   const wait=Math.max(0,1000-(Date.now()-lastRequestAt));if(wait)await new Promise(resolve=>setTimeout(resolve,wait));lastRequestAt=Date.now();
   const response=await fetch(`/api/musicbrainz?${query}`,{cache:'force-cache'});
   if(!response.ok)throw new Error(response.status===503?'MusicBrainz está limitando solicitudes. Espera un segundo y vuelve a intentarlo.':`MusicBrainz respondió con error (${response.status}).`);
+  if(!response.headers.get('content-type')?.toLowerCase().includes('application/json')){
+    throw new Error('El catálogo no está disponible en este despliegue. Configura el proyecto como Cloudflare Pages para activar /api/musicbrainz.');
+  }
   const data=await response.json() as {recordings?:unknown};
   if(!Array.isArray(data.recordings))return [];
   return (data.recordings as Recording[]).flatMap(recording=>{

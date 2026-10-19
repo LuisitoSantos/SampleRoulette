@@ -50,7 +50,7 @@ La app actual no necesita Supabase, secretos ni variables de entorno.
 2. Selecciona el preset de Vite, rama de producción y configura **Build command** `npm run build` y **Build output directory** `dist` (directorio raíz del proyecto).
 3. No añadas variables de Supabase ni de Spotify. La integración gratuita de MusicBrainz no utiliza API key.
 4. Despliega. Pages publica un origen HTTPS `*.pages.dev`; añade el dominio propio desde **Custom domains** si quieres.
-5. El directorio raíz `functions/api/musicbrainz.ts` se despliega como Pages Function `/api/musicbrainz`. El fallback de rutas SPA está en `public/_redirects`.
+5. El directorio raíz `functions/api/musicbrainz.ts` se despliega como Pages Function `/api/musicbrainz`. Cloudflare Pages proporciona el fallback SPA automáticamente cuando no hay un `404.html` de nivel superior; no añadas una regla `/* /index.html 200` porque Pages la detecta como un posible bucle.
 
 Para ejecutar localmente el Function de Cloudflare además de la app, puedes probar el build con Wrangler (`npx wrangler pages dev dist`); el modo normal `npm run dev` utiliza el proxy de Vite. Pages Functions consumen las cuotas de Workers de tu cuenta; consulta sus límites actuales antes de abrir el sitio al público.
 

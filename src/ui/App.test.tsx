@@ -4,7 +4,7 @@ import {cleanup,fireEvent,render,screen,waitFor} from '@testing-library/react';
 import App from './App';
 import {initialState} from '../storage';
 
-beforeEach(()=>vi.stubGlobal('fetch',vi.fn(async()=>({ok:true,status:200,json:async()=>({recordings:[{id:'12345678-1234-4234-8234-123456789012',title:'A MusicBrainz Song','artist-credit':[{name:'An Artist'}],'first-release-date':'1964-01-01',length:180000,releases:[{id:'12345678-1234-4234-8234-123456789013',title:'First Album'}]}]})}))));
+beforeEach(()=>vi.stubGlobal('fetch',vi.fn(async()=>({ok:true,status:200,headers:{get:()=> 'application/json'},json:async()=>({recordings:[{id:'12345678-1234-4234-8234-123456789012',title:'A MusicBrainz Song','artist-credit':[{name:'An Artist'}],'first-release-date':'1964-01-01',length:180000,releases:[{id:'12345678-1234-4234-8234-123456789013',title:'First Album'}]}]})}))));
 afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()});
 
 it('discovers a MusicBrainz song, then saves the same selection as used and creates its episode',async()=>{
