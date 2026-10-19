@@ -1,6 +1,6 @@
 # Sample Roulette
 
-Herramienta personal para descubrir grabaciones al azar, guardar una biblioteca local y organizar episodios de **Saturday Sample**. La interfaz está disponible en español e inglés. No hay cuentas ni inicio de sesión: cada navegador mantiene sus preferencias, sorteos, biblioteca y episodios en `localStorage`.
+Herramienta personal para descubrir grabaciones al azar, guardar una biblioteca local y organizar episodios de **Sunday Sample**. La interfaz está disponible en español e inglés. No hay cuentas ni inicio de sesión: cada navegador mantiene sus preferencias, sorteos, biblioteca y episodios en `localStorage`.
 
 ## Desarrollo
 
@@ -38,7 +38,7 @@ Límites de metadatos: MusicBrainz no siempre tiene año, lanzamiento, tags o po
 
 Fuentes oficiales: [API de MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_API), [búsqueda](https://musicbrainz.org/doc/MusicBrainz_API/Search), [rate limits y User-Agent](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting), [Cover Art Archive](https://musicbrainz.org/doc/Cover_Art_Archive/API) y [licencia de datos](https://musicbrainz.org/doc/About/Data_License).
 
-## Números de Saturday Sample
+## Números de Sunday Sample
 
 El número pertenece a un **episodio creado**, no a cada sorteo. Crear un episodio asigna el siguiente número en ese navegador; descartar o descubrir otra canción no lo incrementa. Exportar un vídeo sin episodio usa como rótulo el próximo número previsto, sin reservarlo. Si se crean episodios desde varios móviles, cada uno puede asignar su propio `#001`, porque los datos no se sincronizan. Para un número compartido y único entre personas haría falta un backend con asignación transaccional; por ahora el contador es personal por navegador.
 
