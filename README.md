@@ -1,6 +1,6 @@
 # Sample Roulette
 
-Herramienta personal para descubrir grabaciones al azar, guardar una biblioteca local y organizar episodios de **Sunday Sample**. La interfaz está disponible en español e inglés. No hay cuentas ni inicio de sesión: cada navegador mantiene sus preferencias, sorteos, biblioteca y episodios en `localStorage`.
+Ruleta personal en una sola pantalla para descubrir grabaciones y preparar vídeos de **Sunday Sample**. La interfaz está disponible en español e inglés, con accesos a Spotify e Instagram en la cabecera. No hay cuentas ni inicio de sesión; las preferencias y el historial de sorteos se guardan localmente en cada navegador.
 
 ## Desarrollo
 
@@ -17,9 +17,9 @@ En desarrollo, Vite sirve la aplicación en `http://localhost:5173` y proxifica 
 
 ## Funciones
 
-- Ruleta con filtros de época y género aplicados a la búsqueda de MusicBrainz. Procedencia y tipo vocal/instrumental se conservan como desconocidos cuando el proveedor no los devuelve; al activar esos filtros, las grabaciones sin esos metadatos quedan excluidas.
+- Ruleta con filtros de época y género aplicados a la búsqueda de MusicBrainz. No se ofrecen filtros de procedencia o vocal/instrumental porque el proveedor no devuelve esos datos de forma fiable.
 - Cada sorteo se guarda en el historial local. Los descartes se evitan durante la sesión actual; las canciones marcadas como utilizadas **no** se bloquean en sorteos posteriores.
-- Favoritas, biblioteca, episodios secuenciales, captions editables, hashtags, notas y estados de producción.
+- Una sola vista de ruleta, sin navegación lateral ni pantallas de biblioteca o gestión de contenido.
 - Enlaces de búsqueda de Spotify creados a partir de título y artista. MusicBrainz no entrega un ID de Spotify; el enlace abre resultados de búsqueda, no certifica que sea la grabación exacta.
 - Ficha PNG y exportación MP4 real local: 1080×1920, 30 fps, 6 segundos, H.264 y efectos sonoros sintéticos AAC. No se incorpora audio de canciones.
 - PWA instalable con caché limitada a los recursos estáticos locales. La API musical y los datos privados no se almacenan en el service worker.
@@ -34,13 +34,13 @@ El proxy de Pages añade el `User-Agent`, valida las consultas permitidas y perm
 
 La portada se solicita al **Cover Art Archive** cuando el resultado incluye un lanzamiento asociado. Puede no existir y los derechos dependen de cada imagen y origen. En ese caso la interfaz y el vídeo usan su composición tipográfica alternativa. No se descarga ni reproduce la grabación original.
 
-Límites de metadatos: MusicBrainz no siempre tiene año, lanzamiento, tags o portada; su búsqueda de recording tampoco entrega de manera fiable procedencia del artista ni condición vocal/instrumental. El código no rellena esos valores inventándolos. El catálogo semilla ficticio anterior solo se conserva para reconocer datos locales de una versión previa; no se usa para nuevos sorteos.
+Límites de metadatos: MusicBrainz no siempre tiene año, lanzamiento, tags o portada; su búsqueda de recording tampoco entrega de manera fiable procedencia del artista ni condición vocal/instrumental. Por eso la ruleta solo filtra por época y género, y los resultados sin esos metadatos simplemente no coincidirán al aplicar el filtro correspondiente. El código no rellena valores inventándolos. El catálogo semilla ficticio anterior solo se conserva para reconocer datos locales de una versión previa; no se usa para nuevos sorteos.
 
 Fuentes oficiales: [API de MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_API), [búsqueda](https://musicbrainz.org/doc/MusicBrainz_API/Search), [rate limits y User-Agent](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting), [Cover Art Archive](https://musicbrainz.org/doc/Cover_Art_Archive/API) y [licencia de datos](https://musicbrainz.org/doc/About/Data_License).
 
 ## Números de Sunday Sample
 
-El número pertenece a un **episodio creado**, no a cada sorteo. Crear un episodio asigna el siguiente número en ese navegador; descartar o descubrir otra canción no lo incrementa. Exportar un vídeo sin episodio usa como rótulo el próximo número previsto, sin reservarlo. Si se crean episodios desde varios móviles, cada uno puede asignar su propio `#001`, porque los datos no se sincronizan. Para un número compartido y único entre personas haría falta un backend con asignación transaccional; por ahora el contador es personal por navegador.
+El número de **Sunday Sample** sigue el ordinal del sorteo guardado en este navegador y también se usa para el MP4. No se comparte ni sincroniza con otros dispositivos.
 
 ## Cloudflare Pages
 
@@ -63,9 +63,9 @@ No crees un proyecto Supabase para desplegar el modo personal actual. Se conserv
 La exportación MP4 requiere `VideoEncoder`, `AudioEncoder`, H.264 y AAC vía WebCodecs. Está pensada para navegadores Chromium recientes en escritorio y HTTPS; no se garantiza compatibilidad universal y no se pudo probar la codificación en todos los dispositivos. El exportador comprueba soporte y muestra un error útil cuando falta. La generación es local y usa memoria durante seis segundos de vídeo. El audio contiene únicamente clics/tono de ruleta sintetizados y una señal de revelación, sin música protegida.
 
 - Si MusicBrainz limita la llamada (503), espera un momento y vuelve a intentarlo; no pulses varias veces seguidas.
-- Si no salen resultados, quita filtros. MusicBrainz puede carecer de tags/año y no da procedencia/tipo vocal de manera fiable en esta búsqueda.
+- Si no salen resultados, quita los filtros de época o género. MusicBrainz puede carecer de etiquetas o año.
 - Si no aparece una portada, puede no estar en Cover Art Archive o el servidor puede impedir CORS; se usa la composición tipográfica.
-- Los datos permanecen en el perfil del navegador. Descarga desde **Ajustes** la copia JSON antes de borrar datos del navegador o cambiar de dispositivo.
+- Los datos permanecen en el perfil del navegador. El historial se guarda en `localStorage`; borrar los datos del navegador también lo elimina.
 - Si el navegador no puede exportar MP4, usa Chrome/Edge actualizado en escritorio. No se ha configurado renderizado remoto; requeriría infraestructura de servidor y proteger recursos temporales.
 
 ## Estructura
@@ -77,3 +77,7 @@ La exportación MP4 requiere `VideoEncoder`, `AudioEncoder`, H.264 y AAC vía We
 - `src/video.ts`: composición Canvas, WebCodecs MP4 y ficha PNG.
 - `supabase/migrations/`: esquema futuro, no conectado al cliente actual.
 
+
+## Anuncios Adsterra
+
+Se han conectado los snippets proporcionados para un banner inferior de escritorio (728×90), una unidad nativa lateral (script con container) y un banner lateral (160×300), cada uno aislado en su propio iframe. Los laterales aparecen solo en pantallas de 1800 px o más para no tapar el contenido. No se recibió un código móvil (320×50), por lo que la publicidad queda oculta en móviles hasta configurar ese formato en src/ads.ts. Gestiona la aprobación y los códigos desde tu cuenta Adsterra; no reutilices un mismo código para varias ubicaciones.
