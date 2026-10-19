@@ -23,3 +23,14 @@
 .spotify-link svg{color:#1ed760}
 .youtube-link svg{color:#ff4545}
 @media(max-width:760px){.header-socials a{padding:7px}.platform-link{padding:0 7px;font-size:8px;gap:4px}}
+/* Reel and roulette refinements */
+.record-stage{position:relative;width:168px;height:168px;margin:33px auto 19px;display:grid;place-items:center}
+.record-stage .record{margin:0;width:100%;height:100%}
+.record-stage .record-arm{z-index:2}
+.cover-art:before,.cover-art:after,.cover-orbit{display:none!important}
+.cover-art{background:#151719}
+.cover-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.episode-number{display:grid;gap:5px;color:#8e9690;font:8px var(--mono);white-space:nowrap}
+.episode-number input{width:94px;height:32px;padding:0 8px;background:#141718;border:1px solid #303536;border-radius:4px;color:#e9eae6;font:11px var(--mono)}
+.episode-number input:focus{outline:1px solid var(--lime);border-color:var(--lime)}
+@media(max-width:760px){.record-stage{width:145px;height:145px;margin:28px auto 17px}.record-stage .record{width:145px;height:145px}.record-stage .record-arm{right:-21px;top:25px}.episode-number input{width:75px}}
