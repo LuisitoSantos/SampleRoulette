@@ -20,10 +20,12 @@ it('renders social links and a language selector without section navigation',()=
  localStorage.setItem('sample-roulette-state-v1',JSON.stringify({...initialState,locale:'en'}));render(<App/>);
  expect(screen.getByRole('heading',{name:/Step outside your orbit/})).toBeTruthy();expect(screen.getByText(/Filters use the year and tags available in MusicBrainz/)).toBeTruthy();expect(screen.getByRole('option',{name:'Current'})).toBeTruthy();expect(screen.getByRole('link',{name:/Spotify de SVNTS/})).toBeTruthy();expect(screen.getByRole('link',{name:/Instagram de SVNTS/})).toBeTruthy();expect(screen.getByRole('combobox',{name:'Cambiar idioma'})).toBeTruthy();expect(screen.queryByText('My Library')).toBeNull();expect(document.documentElement.lang).toBe('en');
  expect(screen.getByText('SVNTS · CREATOR')).toBeTruthy();expect(screen.getByText(/Discover a random song outside your usual sound/)).toBeTruthy();
+ expect(screen.getByText(/BUILT FOR THE LOOP.*MADE FOR THE NEXT ONE/)).toBeTruthy();
 });
 
 it('opens the bilingual about and legal information from the footer',()=>{
  render(<App/>);
+ expect(screen.getByText(/HECHO PARA EL LOOP.*CREADO PARA EL PRÓXIMO SAMPLE/)).toBeTruthy();
  fireEvent.click(screen.getByRole('button',{name:/Acerca de y legal/}));
  expect(screen.getByRole('heading',{name:'Acerca de y legal.'})).toBeTruthy();
  expect(screen.getByRole('link',{name:/MusicBrainz/})).toBeTruthy();
