@@ -3,11 +3,11 @@ import {useEffect,useState} from 'react';
 type Placement='bottomDesktop'|'bottomMobile'|'sideLeft'|'sideRight';
 type Props={placement:Placement;code:string;width:number;height:number;className:string;label:string};
 
-/** Adsterra's publisher snippet is sandboxed in its own frame. */
+/** Runs each publisher snippet in its own frame so each zone keeps its own atOptions config. */
 function AdsterraSlot({placement,code,width,height,className,label}:Props){
   if(!code.trim())return null;
   const document=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;display:grid;place-items:center;overflow:hidden">${code}</body></html>`;
-  return <aside className={`ad-slot ${className}`} aria-label={label} data-placement={placement}><span>PUBLICIDAD</span><iframe title={label} width={width} height={height} srcDoc={document} sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" referrerPolicy="strict-origin-when-cross-origin"/></aside>;
+  return <aside className={`ad-slot ${className}`} aria-label={label} data-placement={placement}><span>PUBLICIDAD</span><iframe title={label} width={width} height={height} srcDoc={document} sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox" referrerPolicy="strict-origin-when-cross-origin"/></aside>;
 }
 
 export function AdsterraPlacements({snippets}:{snippets:typeof import('../ads').adsterraSnippets}){
