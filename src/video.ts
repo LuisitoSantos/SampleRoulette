@@ -6,8 +6,8 @@ async function loadImage(url?:string):Promise<HTMLImageElement|undefined>{if(!ur
 function paint(c:CanvasRenderingContext2D,s:Song,episode:number,frame:number,cover?:HTMLImageElement,spinSongs:Song[]=[]){const t=frame/FPS;const bg=c.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#151719');bg.addColorStop(1,'#08090a');c.fillStyle=bg;c.fillRect(0,0,W,H);
 // Subtle soundwave-like bars and glow
 c.globalAlpha=.18;c.fillStyle='#c7ff55';for(let i=0;i<36;i++){const h=10+((i*37+frame*7)%120);c.fillRect(36+i*30,H*.72-h,5,h)}c.globalAlpha=1;
-c.fillStyle='#c7ff55';c.font='700 30px Arial';c.fillText(`SUNDAY SAMPLE  #${String(episode).padStart(3,'0')}`,80,126);
-c.fillStyle='#737778';c.font='500 22px Arial';c.fillText('SAMPLE ROULETTE',80,174);
+c.textAlign='left';c.fillStyle='#c7ff55';c.font='700 30px Arial';c.fillText(`SUNDAY SAMPLE  #${String(episode).padStart(3,'0')}`,80,126);
+c.textAlign='left';c.fillStyle='#737778';c.font='500 22px Arial';c.fillText('SAMPLE ROULETTE',80,174);
 const spinEnd=4.95; let y= H*.43;
 if(t<spinEnd){const p=Math.min(1,t/spinEnd);const ease=1-Math.pow(1-p,3);const labels=[...spinSongs.filter(x=>x.id!==s.id).slice(0,10),s].map(x=>`${x.title}  /  ${x.artists.join(', ')}`);const laps=labels.length*126;const offset=126+ease*(laps*4-126);
   const travel=offset% (labels.length*126);for(let k=-2;k<4;k++){const idx=((Math.floor(offset/126)+k)%labels.length+labels.length)%labels.length;const yy=y+(k*126)+(126-(offset%126));const distance=Math.abs(yy-y);c.globalAlpha=Math.max(.15,1-distance/650);c.textAlign='center';c.fillStyle='#f1f1ed';c.font=distance<70?'700 42px Arial':'500 32px Arial';c.fillText(labels[idx],W/2,yy);c.globalAlpha=1;}void travel;
