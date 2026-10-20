@@ -47,3 +47,20 @@ export async function renderMp4(song:Song,episode:number,onProgress:(p:number)=>
  muxer.finalize();onProgress(100);return new Blob([target.buffer],{type:'video/mp4'})
 }
 export async function downloadCard(song:Song,episode?:number){const c=document.createElement('canvas');c.width=800;c.height=260;const x=c.getContext('2d')!;x.fillStyle='#111315';x.beginPath();x.roundRect(0,0,800,260,22);x.fill();if(song.coverUrl){const image=await loadImage(song.coverUrl);if(image)x.drawImage(image,24,24,212,212)}if(!song.coverUrl){x.fillStyle='#c7ff55';x.font='700 24px Arial';x.fillText('SAMPLE',54,134);x.fillText('ROULETTE',54,166)}x.fillStyle='#c7ff55';x.font='700 17px Arial';x.fillText(episode?`SUNDAY SAMPLE #${String(episode).padStart(3,'0')}`:'SAMPLE ROULETTE',264,76);x.fillStyle='#f4f4ef';x.font='700 30px Arial';x.fillText(song.title.slice(0,26),264,130);x.fillStyle='#a8adad';x.font='400 22px Arial';x.fillText(song.artists.join(', ').slice(0,38),264,170);const blob=await new Promise<Blob>((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error('No se pudo exportar el PNG.')),'image/png'));const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`Sunday-Sample-${String(episode??1).padStart(3,'0')}-card.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+
+export async function downloadInstagramThumbnail(song:Song,episode:number){
+ const c=document.createElement('canvas');c.width=1080;c.height=1920;const x=c.getContext('2d');if(!x)throw new Error('No se pudo crear la miniatura.');
+ const bg=x.createLinearGradient(0,0,1080,1920);bg.addColorStop(0,'#191d18');bg.addColorStop(.52,'#0c0e0f');bg.addColorStop(1,'#111512');x.fillStyle=bg;x.fillRect(0,0,1080,1920);
+ const glow=x.createRadialGradient(540,790,30,540,790,850);glow.addColorStop(0,'#c7ff551c');glow.addColorStop(1,'#c7ff5500');x.fillStyle=glow;x.fillRect(0,0,1080,1920);
+ x.fillStyle='#c7ff55';x.textAlign='center';x.font='700 34px Arial';x.fillText(`SUNDAY SAMPLE #${String(episode).padStart(3,'0')}`,540,280);
+ x.fillStyle='#69706d';x.font='500 18px Arial';x.fillText('SAMPLE ROULETTE  /  SVNTS',540,326);
+ const size=720,left=(1080-size)/2,top=410;const cover=song.coverUrl?await loadImage(song.coverUrl):undefined;
+ x.save();x.shadowColor='#000a';x.shadowBlur=48;x.shadowOffsetY=20;x.beginPath();x.roundRect(left,top,size,size,24);x.fillStyle='#151819';x.fill();x.restore();
+ if(cover){x.save();x.beginPath();x.roundRect(left,top,size,size,24);x.clip();x.drawImage(cover,left,top,size,size);x.restore()}
+ else{const art=x.createRadialGradient(left+160,top+140,10,540,top+360,620);art.addColorStop(0,'#849642');art.addColorStop(.45,'#33412a');art.addColorStop(1,'#15191a');x.fillStyle=art;x.beginPath();x.roundRect(left,top,size,size,24);x.fill();x.strokeStyle='#e6ef9a55';x.lineWidth=2;for(const d of [560,410,260]){x.beginPath();x.arc(540,top+360,d/2,0,Math.PI*2);x.stroke()}x.fillStyle='#d4e9a0';x.beginPath();x.arc(540,top+360,34,0,Math.PI*2);x.fill()}
+ x.fillStyle='#c7ff55';x.fillRect(100,1240,54,4);
+ const drawWrapped=(text:string,y:number,font:string,color:string,lineHeight:number)=>{x.font=font;x.fillStyle=color;x.textAlign='center';const words=text.split(/\s+/);const lines:string[]=[];let line='';for(const word of words){const next=line?`${line} ${word}`:word;if(x.measureText(next).width>880&&line){lines.push(line);line=word}else line=next}if(line)lines.push(line);lines.slice(0,3).forEach((row,index)=>x.fillText(row,540,y+index*lineHeight,900));return Math.min(lines.length,3)*lineHeight};
+ const titleHeight=drawWrapped(song.title,1330,'700 62px Arial','#f3f4ef',78);drawWrapped(song.artists.join(', '),1330+titleHeight+24,'400 38px Arial','#a9b0aa',50);
+ const blob=await new Promise<Blob>((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error('No se pudo exportar la miniatura PNG.')),'image/png'));
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`Sunday-Sample-${String(episode).padStart(3,'0')}-Instagram.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}

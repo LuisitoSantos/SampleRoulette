@@ -17,5 +17,5 @@ it('discovers a MusicBrainz song on the single roulette screen',async()=>{
 
 it('renders social links and a language selector without section navigation',()=>{
  localStorage.setItem('sample-roulette-state-v1',JSON.stringify({...initialState,locale:'en'}));render(<App/>);
- expect(screen.getByRole('heading',{name:/Step outside your orbit/})).toBeTruthy();expect(screen.getByRole('link',{name:/Spotify de SVNTS/})).toBeTruthy();expect(screen.getByRole('link',{name:/Instagram de SVNTS/})).toBeTruthy();expect(screen.getByRole('combobox',{name:'Cambiar idioma'})).toBeTruthy();expect(screen.queryByText('My Library')).toBeNull();expect(document.documentElement.lang).toBe('en');
+ expect(screen.getByRole('heading',{name:/Step outside your orbit/})).toBeTruthy();expect(screen.getByText(/Filters use the year and tags available in MusicBrainz/)).toBeTruthy();expect(screen.getByRole('option',{name:'Current'})).toBeTruthy();expect(screen.getByRole('link',{name:/Spotify de SVNTS/})).toBeTruthy();expect(screen.getByRole('link',{name:/Instagram de SVNTS/})).toBeTruthy();expect(screen.getByRole('combobox',{name:'Cambiar idioma'})).toBeTruthy();expect(screen.queryByText('My Library')).toBeNull();expect(document.documentElement.lang).toBe('en');
 });

@@ -3,7 +3,7 @@ import type {Filters,Genre,Song} from './model';
 type Recording={id?:string;title?:string;'artist-credit'?:Array<{name?:string;artist?:{name?:string}}>; 'first-release-date'?:string;length?:number;releases?:Array<{id?:string;title?:string}>};
 const tags:Record<Genre,string[]>={soul:['soul','funk','r&b'],world:['afrobeat','highlife','salsa','reggae','bossa nova','cumbia'],rock:['psychedelic rock','indie rock','pop rock'],electronic:['disco','electronic','house','funk'],spanish:['flamenco','spanish music','rumba'],classical:['soundtrack','film score','classical'],other:['jazz','folk','punk','ambient']};
 const allTags=Object.values(tags).flat();
-const bounds:Record<string,[number,number]>={pre70:[1900,1969],'70-89':[1970,1989],'90-09':[1990,2009],'10+':[2010,2026]};
+const bounds:Record<string,[number,number]>={'70s':[1970,1979],'80s':[1980,1989],'90s':[1990,1999],'00s':[2000,2009],current:[2010,new Date().getFullYear()]};
 let lastRequestAt=0;
 function pick<T>(items:T[]){return items[Math.floor(Math.random()*items.length)]}
 export async function discoverFromMusicBrainz(filters:Filters):Promise<Song[]>{

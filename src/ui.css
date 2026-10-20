@@ -34,3 +34,9 @@
 .episode-number input{width:94px;height:32px;padding:0 8px;background:#141718;border:1px solid #303536;border-radius:4px;color:#e9eae6;font:11px var(--mono)}
 .episode-number input:focus{outline:1px solid var(--lime);border-color:var(--lime)}
 @media(max-width:760px){.record-stage{width:145px;height:145px;margin:28px auto 17px}.record-stage .record{width:145px;height:145px}.record-stage .record-arm{right:-21px;top:25px}.episode-number input{width:75px}}
+/* Ads stay visible while browsing; the supplied 728x90 zone is scaled on phones. */
+.ad-bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);margin:0;width:min(728px,100vw);height:106px;padding:8px 8px 0;background:linear-gradient(180deg,#101213ee,#0b0c0e);overflow:hidden;z-index:15}
+.ad-bottom>span{margin-bottom:4px}
+.main{padding-bottom:112px}
+@media(max-width:760px){.ad-bottom{height:58px;padding:4px 0 0}.ad-bottom iframe{transform:scale(.43);transform-origin:top center}.main{padding-bottom:122px}}
+@media(max-width:760px){.ad-bottom iframe{width:728px;max-width:none;height:90px;transform:scale(.43);transform-origin:top center}}

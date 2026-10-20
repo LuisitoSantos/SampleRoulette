@@ -20,8 +20,8 @@ En desarrollo, Vite sirve la aplicación en `http://localhost:5173` y proxifica 
 - Ruleta con filtros de época y género aplicados a la búsqueda de MusicBrainz. No se ofrecen filtros de procedencia o vocal/instrumental porque el proveedor no devuelve esos datos de forma fiable.
 - Cada sorteo se guarda en el historial local. Los descartes se evitan durante la sesión actual; las canciones marcadas como utilizadas **no** se bloquean en sorteos posteriores.
 - Una sola vista de ruleta, sin navegación lateral ni pantallas de biblioteca o gestión de contenido.
-- Enlaces de búsqueda de Spotify creados a partir de título y artista. MusicBrainz no entrega un ID de Spotify; el enlace abre resultados de búsqueda, no certifica que sea la grabación exacta.
-- Ficha PNG y exportación MP4 real local: 1080×1920, 30 fps, 6 segundos, H.264 y efectos sonoros sintéticos AAC. No se incorpora audio de canciones.
+- Enlaces de búsqueda de YouTube generados a partir del título y artista; la app no afirma que un resultado de búsqueda sea la grabación exacta.
+- Ficha PNG, miniatura vertical para Instagram y exportación MP4 real local: 1080×1920, 30 fps, 6 segundos, H.264 y efectos sonoros sintéticos AAC. No se incorpora audio de canciones.
 - PWA instalable con caché limitada a los recursos estáticos locales. La API musical y los datos privados no se almacenan en el service worker.
 
 ## MusicBrainz y portadas
@@ -48,9 +48,9 @@ La app actual no necesita Supabase, secretos ni variables de entorno.
 
 1. Sube el repositorio a GitHub o GitLab y conéctalo desde **Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git**.
 2. Selecciona el preset de Vite, rama de producción y configura **Build command** `npm run build` y **Build output directory** `dist` (directorio raíz del proyecto).
-3. No añadas variables de Supabase ni de Spotify. La integración gratuita de MusicBrainz no utiliza API key.
+3. No añadas variables de Supabase, Spotify o YouTube. MusicBrainz no utiliza API key.
 4. Despliega. Pages publica un origen HTTPS `*.pages.dev`; añade el dominio propio desde **Custom domains** si quieres.
-5. El directorio raíz `functions/api/musicbrainz.ts` se despliega como Pages Function `/api/musicbrainz`. Cloudflare Pages proporciona el fallback SPA automáticamente cuando no hay un `404.html` de nivel superior; no añadas una regla `/* /index.html 200` porque Pages la detecta como un posible bucle.
+5. `functions/api/musicbrainz.ts` se despliega como Pages Function (`/api/musicbrainz`). Cloudflare Pages proporciona el fallback SPA automáticamente cuando no hay un `404.html` de nivel superior; no añadas una regla `/* /index.html 200` porque Pages la detecta como un posible bucle.
 
 Para ejecutar localmente el Function de Cloudflare además de la app, puedes probar el build con Wrangler (`npx wrangler pages dev dist`); el modo normal `npm run dev` utiliza el proxy de Vite. Pages Functions consumen las cuotas de Workers de tu cuenta; consulta sus límites actuales antes de abrir el sitio al público.
 
@@ -80,4 +80,4 @@ La exportación MP4 requiere `VideoEncoder`, `AudioEncoder`, H.264 y AAC vía We
 
 ## Anuncios Adsterra
 
-Se han conectado los snippets proporcionados para un banner inferior de escritorio (728×90), una unidad nativa lateral (script con container) y un banner lateral (160×300), cada uno aislado en su propio iframe. Los laterales aparecen solo en pantallas de 1800 px o más para no tapar el contenido. No se recibió un código móvil (320×50), por lo que la publicidad queda oculta en móviles hasta configurar ese formato en src/ads.ts. Gestiona la aprobación y los códigos desde tu cuenta Adsterra; no reutilices un mismo código para varias ubicaciones.
+Se han conectado los snippets proporcionados para un banner inferior de 728×90, una unidad nativa lateral y un banner lateral de 160×300, cada uno aislado en su propio iframe. El banner inferior queda fijo y se adapta a pantallas móviles; los laterales aparecen solo en pantallas de 1800 px o más para no tapar el contenido. Gestiona la aprobación y los códigos desde tu cuenta Adsterra; no reutilices un mismo código para varias ubicaciones.

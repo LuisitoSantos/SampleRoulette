@@ -17,6 +17,6 @@ export function AdsterraPlacements({snippets}:{snippets:typeof import('../ads').
   return <>
     {wide&&<AdsterraSlot placement="sideLeft" code={snippets.sideLeft} width={300} height={250} className="ad-rail ad-rail-left" label="Publicidad lateral izquierda"/>}
     {wide&&<AdsterraSlot placement="sideRight" code={snippets.sideRight} width={160} height={300} className="ad-rail ad-rail-right" label="Publicidad lateral derecha"/>}
-    {mobile!==undefined&&<AdsterraSlot placement={mobile?'bottomMobile':'bottomDesktop'} code={mobile?snippets.bottomMobile:snippets.bottomDesktop} width={mobile?320:728} height={mobile?50:90} className="ad-bottom" label="Banner publicitario"/>}
+    {mobile!==undefined&&<AdsterraSlot placement={mobile?'bottomMobile':'bottomDesktop'} code={snippets.bottomDesktop} width={728} height={90} className="ad-bottom" label="Banner publicitario"/>}
   </>;
 }
