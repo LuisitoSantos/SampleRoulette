@@ -28,6 +28,8 @@ it('opens the bilingual about and legal information from the footer',()=>{
  expect(screen.getByRole('heading',{name:'Acerca de y legal.'})).toBeTruthy();
  expect(screen.getByRole('link',{name:/MusicBrainz/})).toBeTruthy();
  expect(screen.getByText(/Los enlaces de Spotify e Instagram de la cabecera son los perfiles personales del creador/)).toBeTruthy();
+ expect(screen.getByText(/ni está conectada a un almacenamiento externo/i)).toBeTruthy();
+ expect(screen.queryByText(/conexión con Supabase/i)).toBeNull();
  expect(screen.getByText(/no tiene un panel de preferencias de cookies/i)).toBeTruthy();
  fireEvent.click(screen.getByRole('button',{name:/Volver a la ruleta/}));
  expect(screen.getByRole('heading',{name:/Sal de tu órbita/})).toBeTruthy();
